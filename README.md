@@ -1,2 +1,47 @@
-# Mundial_Fan_Shop_2029
-Mundial Fan Shop 2029, una tienda dedicada a la venta de productos inspirados en el Mundial de Fútbol 2029
+# Mundial Fan Shop 2029
+
+Sitio web de una tienda mundialista ficticia creada como proyecto escolar de desarrollo de páginas web.
+
+## Objetivo
+
+Crear una página web visual, organizada y responsive para presentar productos, promociones, galería, contacto y ubicación de una tienda relacionada con el Mundial 2029.
+
+## Estructura del sitio
+
+El proyecto funciona como una sola página principal con secciones controladas por JavaScript.
+
+- Inicio
+- Nosotros
+- Productos
+- Promociones
+- Galería
+- Contacto
+- Ubicación
+
+## Tecnologías
+
+- HTML
+- CSS
+- Bootstrap
+- JavaScript
+- GitHub Pages
+
+## Organización del equipo
+
+- Fernando: HTML
+- Benjamin: CSS
+- Danny: JavaScript
+- Cristoper: imágenes y recursos
+
+## Archivos principales
+
+```text
+index.html
+css/style.css
+js/script.js
+img/
+```
+
+## Nota de trabajo
+
+Aunque existan ideas de varias páginas, el sitio final está preparado para funcionar desde `index.html`, mostrando y ocultando secciones con JavaScript.
