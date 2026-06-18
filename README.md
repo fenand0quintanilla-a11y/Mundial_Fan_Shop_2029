@@ -32,7 +32,7 @@ El proyecto funciona como una sola página principal con secciones controladas p
   : HTML
 - Benjamin: CSS
 - Danny: JavaScript
-- Cristoper: imágenes y recursos
+- Cristoper Neftali López Badio 
 
 ## Archivos principales
 
