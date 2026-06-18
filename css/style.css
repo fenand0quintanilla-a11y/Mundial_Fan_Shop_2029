@@ -1,0 +1,167 @@
+/* =========================
+   ESTILO GENERAL
+========================= */
+
+body{
+    font-family: "Segoe UI", Arial, sans-serif;
+    background:#f4f6fb;
+    color:#222;
+}
+
+.pantalla{
+    display:none;
+    min-height:100vh;
+}
+
+.pantalla.activa{
+    display:block;
+    animation:aparecer .35s ease;
+}
+
+@keyframes aparecer{
+    from{opacity:0; transform:translateY(10px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+/* =========================
+   COLORES PRINCIPALES
+========================= */
+
+.top-bar,
+footer{
+    background:linear-gradient(90deg, #071d49, #c8102e);
+}
+
+.navbar-brand{
+    color:#071d49 !important;
+}
+
+.nav-link{
+    font-weight:600;
+}
+
+.nav-link:hover,
+.nav-link.active{
+    color:#c8102e !important;
+}
+
+.btn-primary{
+    background:#c8102e;
+    border:none;
+    border-radius:10px;
+}
+
+.btn-primary:hover{
+    background:#a50c25;
+}
+
+.btn-outline-primary{
+    color:#c8102e;
+    border-color:#c8102e;
+    border-radius:10px;
+}
+
+.btn-outline-primary:hover{
+    background:#c8102e;
+    border-color:#c8102e;
+}
+
+h1,
+h2{
+    color:#071d49;
+}
+
+h3,
+h5{
+    color:#071d49;
+    font-weight:700;
+}
+
+/* =========================
+   INICIO
+========================= */
+
+.hero-section{
+    background:linear-gradient(to bottom, #ffffff, #eef2ff);
+}
+
+.hero-card{
+    background:linear-gradient(135deg, #071d49, #c8102e);
+    color:white;
+    border-radius:24px;
+    padding:50px 35px;
+}
+
+.hero-card h2{
+    color:white;
+}
+
+.precio-destacado{
+    font-size:1.5rem;
+    font-weight:800;
+}
+
+/* =========================
+   TARJETAS
+========================= */
+
+.card{
+    border:none;
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:0 8px 20px rgba(0,0,0,.06);
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 14px 30px rgba(0,0,0,.12);
+}
+
+.card-img-top{
+    height:200px;
+    object-fit:cover;
+    background:#dfe5f5;
+}
+
+.product-card p{
+    font-size:.95rem;
+}
+
+/* =========================
+   GALERÍA Y UBICACIÓN
+========================= */
+
+.galeria-box,
+.ubicacion-box{
+    background:white;
+    border-radius:18px;
+    min-height:180px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 8px 20px rgba(0,0,0,.06);
+    padding:25px;
+}
+
+.ubicacion-box{
+    flex-direction:column;
+}
+
+.formulario-contacto{
+    max-width:720px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:768px){
+    .hero-card{
+        padding:35px 25px;
+    }
+
+    .display-4{
+        font-size:2.2rem;
+    }
+}
