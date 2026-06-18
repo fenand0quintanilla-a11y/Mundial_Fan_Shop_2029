@@ -31,7 +31,7 @@ El proyecto funciona como una sola página principal con secciones controladas p
 - Carlos Fernando Escobar Quintanilla
   : HTML
 - Benjamin: CSS
-- Danny Joel Castro Juárez: JavaScript
+- Danny Joel Castro Juárez : JavaScript
 - Cristoper Neftali López Badio 
 
 ## Archivos principales
