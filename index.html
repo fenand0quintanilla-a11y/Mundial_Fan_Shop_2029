@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Mundial Fan Shop 2029: tienda mundialista con productos, promociones, galería y contacto.">
+  <title>Mundial Fan Shop 2029</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <aside class="top-bar text-white py-2">
+    <section class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+      <p class="mb-0 small">Mundial Fan Shop 2029 | Tienda mundialista</p>
+      <p class="mb-0 small">Precios en dólares | Envíos nacionales</p>
+    </section>
+  </aside>
+
+  <header class="sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+      <section class="container">
+        <a class="navbar-brand fw-bold" href="#" data-seccion="inicio">Mundial Fan Shop 2029</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <section class="collapse navbar-collapse" id="menuPrincipal">
+          <ul class="navbar-nav ms-auto align-items-lg-center">
+            <li class="nav-item"><a class="nav-link active" href="#" data-seccion="inicio">Inicio</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" data-seccion="nosotros">Nosotros</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" data-seccion="productos">Productos</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" data-seccion="promociones">Promociones</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" data-seccion="galeria">Galería</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" data-seccion="contacto">Contacto</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" data-seccion="ubicacion">Ubicación</a></li>
+          </ul>
+        </section>
+      </section>
+    </nav>
+  </header>
+
+  <main>
+    <section id="inicio" class="pantalla activa hero-section py-5">
+      <section class="container">
+        <section class="row align-items-center g-5">
+          <article class="col-lg-6">
+            <span class="badge bg-warning text-dark mb-3">Colección Mundial 2029</span>
+            <h1 class="display-4 fw-bold">La tienda para vivir la pasión del fútbol</h1>
+            <p class="lead text-muted">Camisetas, balones, accesorios y recuerdos inspirados en el Mundial 2029.</p>
+            <section class="d-flex flex-wrap gap-3 mt-4">
+              <a href="#" class="btn btn-primary btn-lg" data-seccion="productos">Explorar productos</a>
+              <a href="#" class="btn btn-outline-primary btn-lg" data-seccion="promociones">Ver promociones</a>
+            </section>
+          </article>
+          <article class="col-lg-6">
+            <section class="hero-card shadow">
+              <p class="text-uppercase fw-bold small">Producto destacado</p>
+              <h2>Camiseta edición 2029</h2>
+              <p>Diseño deportivo preparado para la temporada mundialista.</p>
+              <p class="precio-destacado">Desde $29.99</p>
+              <a href="#" class="btn btn-light" data-seccion="productos">Ver colección</a>
+            </section>
+          </article>
+        </section>
+      </section>
+    </section>
+
+    <section id="nosotros" class="pantalla py-5 bg-light">
+      <section class="container">
+        <header class="text-center mb-5">
+          <span class="badge bg-primary mb-2">Nuestra tienda</span>
+          <h2 class="fw-bold">Sobre Mundial Fan Shop 2029</h2>
+          <p class="text-muted">Una tienda dedicada a productos para aficionados del fútbol.</p>
+        </header>
+        <section class="row g-4">
+          <article class="col-md-4"><section class="card h-100 p-4 text-center"><h3>Pasión deportiva</h3><p>Artículos pensados para vivir cada partido con emoción.</p></section></article>
+          <article class="col-md-4"><section class="card h-100 p-4 text-center"><h3>Variedad</h3><p>Camisetas, balones, recuerdos, accesorios y combos.</p></section></article>
+          <article class="col-md-4"><section class="card h-100 p-4 text-center"><h3>Atención cercana</h3><p>Orientación para elegir productos, regalos y paquetes.</p></section></article>
+        </section>
+      </section>
+    </section>
+
+    <section id="productos" class="pantalla py-5">
+      <section class="container">
+        <header class="text-center mb-5">
+          <span class="badge bg-danger mb-2">Catálogo</span>
+          <h2 class="fw-bold">Productos mundialistas</h2>
+          <p class="text-muted">Selección inicial de 12 productos para el sitio.</p>
+        </header>
+        <section id="listaProductos" class="row g-4"></section>
+      </section>
+    </section>
+
+    <section id="promociones" class="pantalla py-5 bg-light">
+      <section class="container">
+        <header class="text-center mb-5">
+          <span class="badge bg-warning text-dark mb-2">Ofertas</span>
+          <h2 class="fw-bold">Promociones especiales</h2>
+          <p class="text-muted">Combos y descuentos para la temporada mundialista.</p>
+        </header>
+        <section class="row g-4">
+          <article class="col-md-4"><section class="card h-100 p-4"><h3>Combo partido</h3><p>Camiseta, gorra y pulsera.</p><p><del>$49.99</del></p><p class="fw-bold text-success">$39.99</p></section></article>
+          <article class="col-md-4"><section class="card h-100 p-4"><h3>Pack familiar</h3><p>Accesorios para compartir en casa.</p><p><del>$59.99</del></p><p class="fw-bold text-success">$47.99</p></section></article>
+          <article class="col-md-4"><section class="card h-100 p-4"><h3>Recuerdos 2029</h3><p>Llavero, taza y stickers.</p><p><del>$22.99</del></p><p class="fw-bold text-success">$17.99</p></section></article>
+        </section>
+      </section>
+    </section>
+
+    <section id="galeria" class="pantalla py-5">
+      <section class="container">
+        <header class="text-center mb-5">
+          <span class="badge bg-primary mb-2">Galería</span>
+          <h2 class="fw-bold">Inspiración mundialista</h2>
+          <p class="text-muted">Espacio para imágenes de productos y recursos del equipo.</p>
+        </header>
+        <section class="row g-4">
+          <article class="col-md-4"><section class="galeria-box">Imagen 1</section></article>
+          <article class="col-md-4"><section class="galeria-box">Imagen 2</section></article>
+          <article class="col-md-4"><section class="galeria-box">Imagen 3</section></article>
+        </section>
+      </section>
+    </section>
+
+    <section id="contacto" class="pantalla py-5 bg-light">
+      <section class="container">
+        <header class="text-center mb-5">
+          <span class="badge bg-danger mb-2">Contacto</span>
+          <h2 class="fw-bold">Contáctanos</h2>
+          <p class="text-muted">Consulta productos, precios o disponibilidad.</p>
+        </header>
+        <form id="formContacto" class="card p-4 shadow-sm mx-auto formulario-contacto">
+          <label for="nombre" class="form-label">Nombre completo</label>
+          <input type="text" id="nombre" class="form-control mb-3" placeholder="Escribe tu nombre">
+          <label for="correo" class="form-label">Correo electrónico</label>
+          <input type="email" id="correo" class="form-control mb-3" placeholder="ejemplo@correo.com">
+          <label for="mensaje" class="form-label">Mensaje</label>
+          <textarea id="mensaje" class="form-control mb-3" rows="4" placeholder="Escribe tu consulta"></textarea>
+          <button type="submit" class="btn btn-primary">Enviar consulta</button>
+          <section id="mensajeFormulario" class="mt-3"></section>
+        </form>
+      </section>
+    </section>
+
+    <section id="ubicacion" class="pantalla py-5">
+      <section class="container text-center">
+        <span class="badge bg-primary mb-2">Ubicación</span>
+        <h2 class="fw-bold">Encuéntranos</h2>
+        <section class="ubicacion-box mt-4">
+          <h3>Mundial Fan Shop 2029</h3>
+          <p>San Salvador, El Salvador</p>
+          <p class="mb-0">Espacio reservado para mapa o referencia.</p>
+        </section>
+      </section>
+    </section>
+  </main>
+
+  <footer class="text-white py-4">
+    <section class="container text-center">
+      <h5 class="fw-bold">Mundial Fan Shop 2029</h5>
+      <p class="mb-1">Artículos, accesorios y recuerdos para aficionados del fútbol.</p>
+      <p class="mb-0">© 2029 Mundial Fan Shop. Todos los derechos reservados.</p>
+    </section>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
