@@ -28,7 +28,8 @@ El proyecto funciona como una sola página principal con secciones controladas p
 
 ## Organización del equipo
 
-- Fernando: HTML
+- Carlos Fernando Escobar Quintanilla
+  : HTML
 - Benjamin: CSS
 - Danny: JavaScript
 - Cristoper: imágenes y recursos
