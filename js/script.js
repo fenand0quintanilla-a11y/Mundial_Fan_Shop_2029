@@ -56,3 +56,40 @@ document.addEventListener("DOMContentLoaded", () => {
             mostrarSeccion(enlace.dataset.seccion);
         });
     });
+    
+    function renderizarProductos() {
+        if (!listaProductos) return;
+        listaProductos.innerHTML = "";
+
+        // Filtrar productos por categoría y por texto del buscador
+        const productosFiltrados = productos.filter(producto => {
+            const cumpleFiltro = filtroActual === "todos" || producto.categoria === filtroActual;
+            const cumpleBusqueda = producto.nombre.toLowerCase().includes(busquedaActual) || 
+                                   producto.desc.toLowerCase().includes(busquedaActual);
+            return cumpleFiltro && cumpleBusqueda;
+        });
+
+        if (productosFiltrados.length === 0) {
+            listaProductos.innerHTML = `<p class="text-center col-12 text-muted my-5">No se encontraron productos que coincidan con tu búsqueda.</p>`;
+            return;
+        }
+
+        productosFiltrados.forEach(producto => {
+            const tarjeta = document.createElement("article");
+            tarjeta.className = "col-md-4 col-lg-3";
+            tarjeta.innerHTML = `
+                <section class="card h-100 product-card">
+                    <img src="${producto.img}" class="card-img-top" alt="${producto.nombre}">
+                    <section class="card-body d-flex flex-column">
+                        <h5>${producto.nombre}</h5>
+                        <p>${producto.desc}</p>
+                        <p class="fw-bold text-success mt-auto">$${producto.precio.toFixed(2)}</p>
+                        <button class="btn btn-primary w-100 btn-agregar-carrito" data-id="${producto.id}">
+                            Agregar al carrito
+                        </button>
+                    </section>
+                </section>
+            `;
+            listaProductos.appendChild(tarjeta);
+        });
+    }
