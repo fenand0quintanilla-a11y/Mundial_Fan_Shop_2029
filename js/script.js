@@ -93,3 +93,76 @@ document.addEventListener("DOMContentLoaded", () => {
             listaProductos.appendChild(tarjeta);
         });
     }
+
+    // Manejo de eventos para filtros de categorías
+    pestañasFiltro.forEach(boton => {
+        boton.addEventListener("click", () => {
+            filtroActual = boton.dataset.filtro;
+
+            // Actualizar clase activa visualmente en los botones de la sección productos
+            document.querySelectorAll(".filter-tabs button").forEach(b => {
+                b.classList.toggle("active", b.dataset.filtro === filtroActual);
+            });
+
+            // Si se hace clic desde el inicio, redirigir automáticamente a la sección de productos
+            if (boton.classList.contains("category-card")) {
+                mostrarSeccion("productos");
+            }
+
+            renderizarProductos();
+        });
+    });
+
+    // Manejo del buscador superior
+    if (buscador) {
+        buscador.addEventListener("input", evento => {
+            busquedaActual = evento.target.value.toLowerCase().trim();
+            // Redirige al catálogo automáticamente si empieza a buscar estando en otra sección
+            const seccionActiva = document.querySelector(".pantalla.activa");
+            if (seccionActiva && seccionActiva.id !== "productos" && seccionActiva.id !== "inicio") {
+                mostrarSeccion("productos");
+            }
+            renderizarProductos();
+        });
+    }
+
+    // --- LÓGICA DEL CARRITO DE COMPRAS ---
+    function actualizarInterfazCarrito() {
+        // 1. Actualizar el badge numérico superior
+        if (contadorCarrito) {
+            contadorCarrito.textContent = carrito.reduce((acc, item) => acc + item.cantidad, 0);
+        }
+
+        // 2. Renderizar lista interna del carrito
+        if (!listaCarrito || !totalCarrito) return;
+        listaCarrito.innerHTML = "";
+
+        if (carrito.length === 0) {
+            listaCarrito.innerHTML = `<p class="text-center text-muted py-4">Tu carrito está vacío.</p>`;
+            totalCarrito.textContent = "$0.00";
+            return;
+        }
+
+        let sumaTotal = 0;
+
+        carrito.forEach(item => {
+            const costeItem = item.precio * item.cantidad;
+            sumaTotal += costeItem;
+
+            const fila = document.createElement("section");
+            fila.className = "d-flex justify-content-between align-items-center border-bottom py-3";
+            fila.innerHTML = `
+                <div>
+                    <h6 class="mb-0 fw-bold">${item.nombre}</h6>
+                    <small class="text-muted">$${item.precio.toFixed(2)} x ${item.cantidad}</small>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                    <span class="fw-bold text-success">$${costeItem.toFixed(2)}</span>
+                    <button class="btn btn-sm btn-outline-danger btn-eliminar-item" data-id="${item.id}">&times;</button>
+                </div>
+            `;
+            listaCarrito.appendChild(fila);
+        });
+
+        totalCarrito.textContent = `$${sumaTotal.toFixed(2)}`;
+    }
