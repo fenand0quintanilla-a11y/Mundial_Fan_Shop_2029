@@ -36,14 +36,12 @@ document.addEventListener("DOMContentLoaded", () => {
         secciones.forEach(seccion => seccion.classList.remove("activa"));
         destino.classList.add("activa");
 
-        // Actualizar estados en los enlaces de navegación
         document.querySelectorAll(".nav-link, .cart-button").forEach(enlace => {
             if (enlace.dataset.seccion) {
                 enlace.classList.toggle("active", enlace.dataset.seccion === idSeccion);
             }
         });
 
-        // Cerrar menú desplegable móvil de Bootstrap
         if (menuPrincipal && window.bootstrap) {
             const menu = bootstrap.Collapse.getOrCreateInstance(menuPrincipal, { toggle: false });
             menu.hide();
@@ -51,3 +49,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         window.scrollTo({ top: 0, behavior: "smooth" });
     }
+    
+ enlaces.forEach(enlace => {
+        enlace.addEventListener("click", evento => {
+            evento.preventDefault();
+            mostrarSeccion(enlace.dataset.seccion);
+        });
+    });
