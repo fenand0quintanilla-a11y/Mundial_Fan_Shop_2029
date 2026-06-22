@@ -166,3 +166,73 @@ document.addEventListener("DOMContentLoaded", () => {
 
         totalCarrito.textContent = `$${sumaTotal.toFixed(2)}`;
     }
+
+    // Escuchador global de clics para capturar botones dinámicos (Agregar/Eliminar del carrito)
+    document.addEventListener("click", evento => {
+        // Evento: Agregar Producto
+        if (evento.target.classList.contains("btn-agregar-carrito")) {
+            const idProducto = parseInt(evento.target.dataset.id);
+            const productoSeleccionado = productos.find(p => p.id === idProducto);
+
+            if (productoSeleccionado) {
+                const itemExistente = carrito.find(item => item.id === idProducto);
+                if (itemExistente) {
+                    itemExistente.cantidad++;
+                } else {
+                    carrito.push({ ...productoSeleccionado, cantidad: 1 });
+                }
+
+                // Efecto visual temporal en el botón
+                const botonOriginal = evento.target;
+                botonOriginal.textContent = "¡Agregado!";
+                botonOriginal.classList.replace("btn-primary", "btn-success");
+
+                setTimeout(() => {
+                    botonOriginal.textContent = "Agregar al carrito";
+                    botonOriginal.classList.replace("btn-success", "btn-primary");
+                }, 1200);
+
+                actualizarInterfazCarrito();
+            }
+        }
+
+        // Evento: Eliminar Producto del Carrito
+        if (evento.target.classList.contains("btn-eliminar-item")) {
+            const idProducto = parseInt(evento.target.dataset.id);
+            carrito = carrito.filter(item => item.id !== idProducto);
+            actualizarInterfazCarrito();
+        }
+    });
+
+    // --- FORMULARIO DE CONTACTO ---
+    const formulario = document.getElementById("formContacto");
+    const mensajeFormulario = document.getElementById("mensajeFormulario");
+
+    if (formulario) {
+        formulario.addEventListener("submit", evento => {
+            evento.preventDefault();
+
+            const nombre = document.getElementById("nombre").value.trim();
+            const correo = document.getElementById("correo").value.trim();
+            const mensaje = document.getElementById("mensaje").value.trim();
+
+            if (nombre === "" || correo === "" || mensaje === "") {
+                alert("Por favor, completa todos los campos antes de enviar.");
+                return;
+            }
+
+            if (mensajeFormulario) {
+                mensajeFormulario.innerHTML = `
+                    <section class="alert alert-success mb-0 animate__animated animate__fadeIn">
+                        ¡Gracias ${nombre}! Hemos recibido tu consulta exitosamente. Te responderemos pronto.
+                    </section>
+                `;
+            }
+            formulario.reset();
+        });
+    }
+
+    // --- INICIALIZACIÓN ---
+    renderizarProductos();
+    actualizarInterfazCarrito();
+});
