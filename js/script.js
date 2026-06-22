@@ -28,3 +28,26 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: 11, nombre: "Sticker pack", desc: "Stickers para decorar cuadernos, laptops o botellas.", precio: 5.99, img: "img/producto-11.jpg", categoria: "accesorio" },
         { id: 12, nombre: "Combo fanático", desc: "Set con accesorios ideales para disfrutar los partidos.", precio: 39.99, img: "img/producto-12.jpg", categoria: "combo" }
     ];
+    
+    function mostrarSeccion(idSeccion) {
+        const destino = document.getElementById(idSeccion);
+        if (!destino) return;
+
+        secciones.forEach(seccion => seccion.classList.remove("activa"));
+        destino.classList.add("activa");
+
+        // Actualizar estados en los enlaces de navegación
+        document.querySelectorAll(".nav-link, .cart-button").forEach(enlace => {
+            if (enlace.dataset.seccion) {
+                enlace.classList.toggle("active", enlace.dataset.seccion === idSeccion);
+            }
+        });
+
+        // Cerrar menú desplegable móvil de Bootstrap
+        if (menuPrincipal && window.bootstrap) {
+            const menu = bootstrap.Collapse.getOrCreateInstance(menuPrincipal, { toggle: false });
+            menu.hide();
+        }
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
