@@ -1,238 +1,209 @@
-document.addEventListener("DOMContentLoaded", () => {
+// Variable global para almacenar los productos añadidos
+let carrito = [];
 
-    let carrito = [];
-    let filtroActual = "todos";
-    let busquedaActual = "";
-    
-    const secciones = document.querySelectorAll(".pantalla");
-    const enlaces = document.querySelectorAll("[data-seccion]");
-    const menuPrincipal = document.getElementById("menuPrincipal");
-    const listaProductos = document.getElementById("listaProductos");
-    const buscador = document.getElementById("buscador");
-    const contadorCarrito = document.getElementById("contadorCarrito");
-    const listaCarrito = document.getElementById("listaCarrito");
-    const totalCarrito = document.getElementById("totalCarrito");
-    const pestañasFiltro = document.querySelectorAll(".filter-tabs button, .category-card");
+/* ==========================================================================
+   1. NAVEGACIÓN SINGLE PAGE APPLICATION (SPA)
+   ========================================================================== */
+function irASeccion(seccionId) {
+  document.querySelectorAll('.pantalla').forEach(pantalla => {
+    pantalla.classList.remove('activa');
+  });
 
-    const productos = [
-        { id: 1, nombre: "Camiseta mundialista", desc: "Camiseta deportiva para apoyar a tu selección favorita.", precio: 29.99, img: "img/producto-1.jpg", categoria: "jersey" },
-        { id: 2, nombre: "Balón edición 2029", desc: "Balón de colección inspirado en la temporada mundialista.", precio: 24.99, img: "img/producto-2.jpg", categoria: "balon" },
-        { id: 3, nombre: "Gorra fan shop", desc: "Gorra cómoda para partidos y eventos deportivos.", precio: 14.99, img: "img/producto-3.jpg", categoria: "accesorio" },
-        { id: 4, nombre: "Bufanda de aficionado", desc: "Accesorio clásico para apoyar en cada encuentro.", precio: 12.99, img: "img/producto-4.jpg", categoria: "accesorio" },
-        { id: 5, nombre: "Taza mundialista", desc: "Taza temática para coleccionar o regalar.", precio: 8.99, img: "img/producto-5.jpg", categoria: "accesorio" },
-        { id: 6, nombre: "Llavero oficial fan", desc: "Recuerdo pequeño y práctico para aficionados.", precio: 4.99, img: "img/producto-6.jpg", categoria: "accesorio" },
-        { id: 7, nombre: "Bandera de selección", desc: "Bandera decorativa para reuniones y celebraciones.", precio: 10.99, img: "img/producto-7.jpg", categoria: "accesorio" },
-        { id: 8, nombre: "Pulsera deportiva", desc: "Accesorio sencillo para llevar la pasión del fútbol.", precio: 3.99, img: "img/producto-8.jpg", categoria: "accesorio" },
-        { id: 9, nombre: "Mochila deportiva", desc: "Mochila práctica para entrenos, viajes y escuela.", precio: 22.99, img: "img/producto-9.jpg", categoria: "accesorio" },
-        { id: 10, nombre: "Termo deportivo", desc: "Termo para llevar bebidas a partidos y entrenamientos.", precio: 11.99, img: "img/producto-10.jpg", categoria: "accesorio" },
-        { id: 11, nombre: "Sticker pack", desc: "Stickers para decorar cuadernos, laptops o botellas.", precio: 5.99, img: "img/producto-11.jpg", categoria: "accesorio" },
-        { id: 12, nombre: "Combo fanático", desc: "Set con accesorios ideales para disfrutar los partidos.", precio: 39.99, img: "img/producto-12.jpg", categoria: "combo" }
-    ];
-    
-    function mostrarSeccion(idSeccion) {
-        const destino = document.getElementById(idSeccion);
-        if (!destino) return;
+  const pantallaDestino = document.getElementById(seccionId);
+  if (pantallaDestino) {
+    pantallaDestino.classList.add('activa');
+  }
 
-        secciones.forEach(seccion => seccion.classList.remove("activa"));
-        destino.classList.add("activa");
-
-        document.querySelectorAll(".nav-link, .cart-button").forEach(enlace => {
-            if (enlace.dataset.seccion) {
-                enlace.classList.toggle("active", enlace.dataset.seccion === idSeccion);
-            }
-        });
-
-        if (menuPrincipal && window.bootstrap) {
-            const menu = bootstrap.Collapse.getOrCreateInstance(menuPrincipal, { toggle: false });
-            menu.hide();
-        }
-
-        window.scrollTo({ top: 0, behavior: "smooth" });
+  // Actualizar clases activas en los enlaces de navegación
+  document.querySelectorAll('.navbar-nav .nav-link').forEach(enlace => {
+    if (enlace.getAttribute('data-seccion') === seccionId) {
+      enlace.classList.add('active');
+    } else {
+      enlace.classList.remove('active');
     }
-    
- enlaces.forEach(enlace => {
-        enlace.addEventListener("click", evento => {
-            evento.preventDefault();
-            mostrarSeccion(enlace.dataset.seccion);
-        });
-    });
-    
-    function renderizarProductos() {
-        if (!listaProductos) return;
-        listaProductos.innerHTML = "";
+  });
 
-        // Filtrar productos por categoría y por texto del buscador
-        const productosFiltrados = productos.filter(producto => {
-            const cumpleFiltro = filtroActual === "todos" || producto.categoria === filtroActual;
-            const cumpleBusqueda = producto.nombre.toLowerCase().includes(busquedaActual) || 
-                                   producto.desc.toLowerCase().includes(busquedaActual);
-            return cumpleFiltro && cumpleBusqueda;
-        });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
-        if (productosFiltrados.length === 0) {
-            listaProductos.innerHTML = `<p class="text-center col-12 text-muted my-5">No se encontraron productos que coincidan con tu búsqueda.</p>`;
-            return;
-        }
-
-        productosFiltrados.forEach(producto => {
-            const tarjeta = document.createElement("article");
-            tarjeta.className = "col-md-4 col-lg-3";
-            tarjeta.innerHTML = `
-                <section class="card h-100 product-card">
-                    <img src="${producto.img}" class="card-img-top" alt="${producto.nombre}">
-                    <section class="card-body d-flex flex-column">
-                        <h5>${producto.nombre}</h5>
-                        <p>${producto.desc}</p>
-                        <p class="fw-bold text-success mt-auto">$${producto.precio.toFixed(2)}</p>
-                        <button class="btn btn-primary w-100 btn-agregar-carrito" data-id="${producto.id}">
-                            Agregar al carrito
-                        </button>
-                    </section>
-                </section>
-            `;
-            listaProductos.appendChild(tarjeta);
-        });
-    }
-
-    // Manejo de eventos para filtros de categorías
-    pestañasFiltro.forEach(boton => {
-        boton.addEventListener("click", () => {
-            filtroActual = boton.dataset.filtro;
-
-            // Actualizar clase activa visualmente en los botones de la sección productos
-            document.querySelectorAll(".filter-tabs button").forEach(b => {
-                b.classList.toggle("active", b.dataset.filtro === filtroActual);
-            });
-
-            // Si se hace clic desde el inicio, redirigir automáticamente a la sección de productos
-            if (boton.classList.contains("category-card")) {
-                mostrarSeccion("productos");
-            }
-
-            renderizarProductos();
-        });
-    });
-
-    // Manejo del buscador superior
-    if (buscador) {
-        buscador.addEventListener("input", evento => {
-            busquedaActual = evento.target.value.toLowerCase().trim();
-            // Redirige al catálogo automáticamente si empieza a buscar estando en otra sección
-            const seccionActiva = document.querySelector(".pantalla.activa");
-            if (seccionActiva && seccionActiva.id !== "productos" && seccionActiva.id !== "inicio") {
-                mostrarSeccion("productos");
-            }
-            renderizarProductos();
-        });
-    }
-
-    // --- LÓGICA DEL CARRITO DE COMPRAS ---
-    function actualizarInterfazCarrito() {
-        // 1. Actualizar el badge numérico superior
-        if (contadorCarrito) {
-            contadorCarrito.textContent = carrito.reduce((acc, item) => acc + item.cantidad, 0);
-        }
-
-        // 2. Renderizar lista interna del carrito
-        if (!listaCarrito || !totalCarrito) return;
-        listaCarrito.innerHTML = "";
-
-        if (carrito.length === 0) {
-            listaCarrito.innerHTML = `<p class="text-center text-muted py-4">Tu carrito está vacío.</p>`;
-            totalCarrito.textContent = "$0.00";
-            return;
-        }
-
-        let sumaTotal = 0;
-
-        carrito.forEach(item => {
-            const costeItem = item.precio * item.cantidad;
-            sumaTotal += costeItem;
-
-            const fila = document.createElement("section");
-            fila.className = "d-flex justify-content-between align-items-center border-bottom py-3";
-            fila.innerHTML = `
-                <div>
-                    <h6 class="mb-0 fw-bold">${item.nombre}</h6>
-                    <small class="text-muted">$${item.precio.toFixed(2)} x ${item.cantidad}</small>
-                </div>
-                <div class="d-flex align-items-center gap-3">
-                    <span class="fw-bold text-success">$${costeItem.toFixed(2)}</span>
-                    <button class="btn btn-sm btn-outline-danger btn-eliminar-item" data-id="${item.id}">&times;</button>
-                </div>
-            `;
-            listaCarrito.appendChild(fila);
-        });
-
-        totalCarrito.textContent = `$${sumaTotal.toFixed(2)}`;
-    }
-
-    // Escuchador global de clics para capturar botones dinámicos (Agregar/Eliminar del carrito)
-    document.addEventListener("click", evento => {
-        // Evento: Agregar Producto
-        if (evento.target.classList.contains("btn-agregar-carrito")) {
-            const idProducto = parseInt(evento.target.dataset.id);
-            const productoSeleccionado = productos.find(p => p.id === idProducto);
-
-            if (productoSeleccionado) {
-                const itemExistente = carrito.find(item => item.id === idProducto);
-                if (itemExistente) {
-                    itemExistente.cantidad++;
-                } else {
-                    carrito.push({ ...productoSeleccionado, cantidad: 1 });
-                }
-
-                // Efecto visual temporal en el botón
-                const botonOriginal = evento.target;
-                botonOriginal.textContent = "¡Agregado!";
-                botonOriginal.classList.replace("btn-primary", "btn-success");
-
-                setTimeout(() => {
-                    botonOriginal.textContent = "Agregar al carrito";
-                    botonOriginal.classList.replace("btn-success", "btn-primary");
-                }, 1200);
-
-                actualizarInterfazCarrito();
-            }
-        }
-
-        // Evento: Eliminar Producto del Carrito
-        if (evento.target.classList.contains("btn-eliminar-item")) {
-            const idProducto = parseInt(evento.target.dataset.id);
-            carrito = carrito.filter(item => item.id !== idProducto);
-            actualizarInterfazCarrito();
-        }
-    });
-
-    // --- FORMULARIO DE CONTACTO ---
-    const formulario = document.getElementById("formContacto");
-    const mensajeFormulario = document.getElementById("mensajeFormulario");
-
-    if (formulario) {
-        formulario.addEventListener("submit", evento => {
-            evento.preventDefault();
-
-            const nombre = document.getElementById("nombre").value.trim();
-            const correo = document.getElementById("correo").value.trim();
-            const mensaje = document.getElementById("mensaje").value.trim();
-
-            if (nombre === "" || correo === "" || mensaje === "") {
-                alert("Por favor, completa todos los campos antes de enviar.");
-                return;
-            }
-
-            if (mensajeFormulario) {
-                mensajeFormulario.innerHTML = `
-                    <section class="alert alert-success mb-0 animate__animated animate__fadeIn">
-                        ¡Gracias ${nombre}! Hemos recibido tu consulta exitosamente. Te responderemos pronto.
-                    </section>
-                `;
-            }
-            formulario.reset();
-        });
-    }
-
-    // --- INICIALIZACIÓN ---
-    renderizarProductos();
-    actualizarInterfazCarrito();
+// Escuchar clicks globales para enlaces con data-seccion
+document.addEventListener('click', (e) => {
+  const objetivo = e.target.closest('[data-seccion]');
+  if (objetivo) {
+    e.preventDefault();
+    const seccionTarget = objetivo.getAttribute('data-seccion');
+    irASeccion(seccionTarget);
+  }
 });
+
+
+/* ==========================================================================
+   2. FILTROS DEL CATÁLOGO (HTML ESTÁTICO)
+   ========================================================================== */
+function filtrarProductos(categoriaFiltro) {
+  const tarjetas = document.querySelectorAll('.producto-item');
+  
+  tarjetas.forEach(tarjeta => {
+    const categoriaTarjeta = tarjeta.getAttribute('data-categoria');
+    if (categoriaFiltro === 'todos' || categoriaTarjeta === categoriaFiltro) {
+      tarjeta.style.setProperty('display', 'block', 'important');
+    } else {
+      tarjeta.style.setProperty('display', 'none', 'important');
+    }
+  });
+}
+
+// Botones de filtro principales en la sección de Productos
+document.querySelectorAll('.filter-tabs button').forEach(boton => {
+  boton.addEventListener('click', (e) => {
+    document.querySelectorAll('.filter-tabs button').forEach(b => b.classList.remove('active'));
+    e.target.classList.add('active');
+
+    const filtro = e.target.getAttribute('data-filtro');
+    filtrarProductos(filtro);
+  });
+});
+
+// Botones de Categorías Rápidas en la pantalla de Inicio
+document.querySelectorAll('[data-filtro-rapido]').forEach(boton => {
+  boton.addEventListener('click', (e) => {
+    const filtro = e.currentTarget.getAttribute('data-filtro-rapido');
+    
+    // Ir a tienda
+    irASeccion('productos');
+    
+    // Activar el botón correcto en los tabs de la tienda
+    const tabCorrespondiente = document.querySelector(`.filter-tabs button[data-filtro="${filtro}"]`);
+    if (tabCorrespondiente) {
+      tabCorrespondiente.click();
+    }
+  });
+});
+
+
+/* ==========================================================================
+   3. BUSCADOR EN TIEMPO REAL
+   ========================================================================== */
+const buscador = document.getElementById('buscador');
+if (buscador) {
+  buscador.addEventListener('input', (e) => {
+    const query = e.target.value.toLowerCase().trim();
+    const tarjetas = document.querySelectorAll('.producto-item');
+
+    if (query !== "") {
+      irASeccion('productos');
+      // Limpiar los tabs activos al buscar de forma general
+      document.querySelectorAll('.filter-tabs button').forEach(b => b.classList.remove('active'));
+      document.querySelector('.filter-tabs button[data-filtro="todos"]').classList.add('active');
+    }
+
+    tarjetas.forEach(tarjeta => {
+      const nombreProducto = tarjeta.querySelector('.card-title').textContent.toLowerCase();
+      if (nombreProducto.includes(query)) {
+        tarjeta.style.setProperty('display', 'block', 'important');
+      } else {
+        tarjeta.style.setProperty('display', 'none', 'important');
+      }
+    });
+  });
+}
+
+
+/* ==========================================================================
+   4. LÓGICA COMPLETA DEL CARRITO DE COMPRAS
+   ========================================================================== */
+function actualizarInterfazCarrito() {
+  const contador = document.getElementById('contadorCarrito');
+  const listaHtml = document.getElementById('listaCarrito');
+  const totalHtml = document.getElementById('totalCarrito');
+
+  // Actualizar burbuja del header
+  const totalItems = carrito.reduce((acc, item) => acc + item.cantidad, 0);
+  if (contador) contador.textContent = totalItems;
+
+  if (!listaHtml || !totalHtml) return;
+
+  listaHtml.innerHTML = '';
+
+  if (carrito.length === 0) {
+    listaHtml.innerHTML = `<p class="text-muted text-center py-4">Tu carrito está completamente vacío.</p>`;
+    totalHtml.textContent = "$0.00";
+    return;
+  }
+
+  let subtotal = 0;
+
+  carrito.forEach(item => {
+    const costeItem = item.precio * item.cantidad;
+    subtotal += costeItem;
+
+    const filaHtml = `
+      <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom bg-white p-2 rounded shadow-sm">
+        <div class="d-flex align-items-center gap-3">
+          <img src="${item.img}" class="rounded" style="width: 50px; height: 50px; object-fit: cover;" alt="${item.nombre}">
+          <div>
+            <h6 class="mb-0 fw-bold" style="font-size: 0.95rem;">${item.nombre}</h6>
+            <small class="text-muted">$${item.precio.toFixed(2)} x ${item.cantidad}</small>
+          </div>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <span class="fw-bold text-dark">$${costeItem.toFixed(2)}</span>
+          <button class="btn btn-sm btn-danger btn-eliminar py-0 px-2" data-id="${item.id}">&times;</button>
+        </div>
+      </div>
+    `;
+    listaHtml.insertAdjacentHTML('beforeend', filaHtml);
+  });
+
+  totalHtml.textContent = `$${subtotal.toFixed(2)}`;
+}
+
+// Capturar el evento "Agregar al carrito" y "Eliminar"
+document.addEventListener('click', (e) => {
+  if (e.target.classList.contains('btn-agregar')) {
+    const boton = e.target;
+    const id = boton.getAttribute('data-id');
+    const tarjeta = boton.closest('.card');
+    
+    const nombre = tarjeta.querySelector('.card-title').textContent;
+    const precioTexto = tarjeta.querySelector('.card-text').textContent;
+    const precio = parseFloat(precioTexto.replace('$', ''));
+    const img = tarjeta.querySelector('img').getAttribute('src');
+
+    const existe = carrito.find(item => item.id === id);
+    if (existe) {
+      existe.cantidad++;
+    } else {
+      carrito.push({ id, nombre, precio, img, cantidad: 1 });
+    }
+    actualizarInterfazCarrito();
+  }
+
+  if (e.target.classList.contains('btn-eliminar')) {
+    const id = e.target.getAttribute('data-id');
+    carrito = carrito.filter(item => item.id !== id);
+    actualizarInterfazCarrito();
+  }
+});
+
+
+/* ==========================================================================
+   5. FORMULARIO DE CONTACTO
+   ========================================================================== */
+const formContacto = document.getElementById('formContacto');
+if (formContacto) {
+  formContacto.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const nombre = document.getElementById('nombre').value;
+    const mensajeFormulario = document.getElementById('mensajeFormulario');
+
+    if (mensajeFormulario) {
+      mensajeFormulario.innerHTML = `
+        <div class="alert alert-success" role="alert">
+          ¡Gracias por escribirnos, <strong>${nombre}</strong>! Tu consulta ha sido registrada con éxito.
+        </div>
+      `;
+      formContacto.reset();
+    }
+  });
+}
