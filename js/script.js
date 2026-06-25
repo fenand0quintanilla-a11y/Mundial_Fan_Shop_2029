@@ -1,7 +1,106 @@
 // Variable global para almacenar los productos añadidos
 let carrito = [];
 
-/* ==========================================================================
+const productos = [
+  {
+    id: "p1",
+    nombre: "Camiseta El Salvador",
+    categoria: "jersey",
+    descripcion: "Camiseta principal para apoyar a la selección.",
+    precio: 29.99,
+    img: "img/camiseta-el-salvador.png"
+  },
+  {
+    id: "p2",
+    nombre: "Balón El Salvador",
+    categoria: "balon",
+    descripcion: "Balón con diseño especial para fanáticos.",
+    precio: 24.99,
+    img: "img/balon-el-salvador (1).png"
+  },
+  {
+    id: "p3",
+    nombre: "Bufanda El Salvador",
+    categoria: "accesorio",
+    descripcion: "Bufanda para celebrar cada partido.",
+    precio: 12.99,
+    img: "img/bufanda-el-salvador.png"
+  },
+  {
+    id: "p4",
+    nombre: "Gorra El Salvador",
+    categoria: "accesorio",
+    descripcion: "Gorra deportiva para uso diario y eventos.",
+    precio: 14.99,
+    img: "img/gorra-el-salvador.png"
+  },
+  {
+    id: "p5",
+    nombre: "Llavero oficial",
+    categoria: "accesorio",
+    descripcion: "Recuerdo pequeño para fanáticos del fútbol.",
+    precio: 4.99,
+    img: "img/llavero-oficial.png"
+  },
+  {
+    id: "p6",
+    nombre: "Álbum de colección",
+    categoria: "accesorio",
+    descripcion: "Álbum para completar y guardar recuerdos.",
+    precio: 9.99,
+    img: "img/album-coleccion.png"
+  },
+  {
+    id: "p7",
+    nombre: "Figuritas pack",
+    categoria: "accesorio",
+    descripcion: "Paquete de figuritas para colección.",
+    precio: 5.99,
+    img: "img/figuritas-pack.png"
+  },
+  {
+    id: "p8",
+    nombre: "Set de accesorios",
+    categoria: "combo",
+    descripcion: "Combo de accesorios para vivir la temporada mundialista.",
+    precio: 19.99,
+    img: "img/set-accesorios.png"
+  },
+  {
+    id: "p9",
+    nombre: "Poster oficial",
+    categoria: "accesorio",
+    descripcion: "Poster decorativo para fanáticos y coleccionistas.",
+    precio: 7.99,
+    img: "img/poster-oficial.png"
+  },
+  {
+    id: "p10",
+    nombre: "Poster edición especial",
+    categoria: "accesorio",
+    descripcion: "Poster alternativo de colección.",
+    precio: 8.99,
+    img: "img/poster-oficial (1).png"
+  },
+  {
+    id: "p11",
+    nombre: "Kit celebración",
+    categoria: "combo",
+    descripcion: "Set preparado para disfrutar los partidos.",
+    precio: 27.99,
+    img: "img/set-accesorios.png"
+  },
+  {
+    id: "p12",
+    nombre: "Combo fanático",
+    categoria: "combo",
+    descripcion: "Camiseta, balón y accesorios para verdaderos fanáticos.",
+    precio: 39.99,
+    img: "img/hero-el-salvador.png"
+  }
+];
+
+/* ========================================================================== 
    1. NAVEGACIÓN SINGLE PAGE APPLICATION (SPA)
    ========================================================================== */
 function irASeccion(seccionId) {
@@ -14,7 +113,6 @@ function irASeccion(seccionId) {
     pantallaDestino.classList.add('activa');
   }
 
-  // Actualizar clases activas en los enlaces de navegación
   document.querySelectorAll('.navbar-nav .nav-link').forEach(enlace => {
     if (enlace.getAttribute('data-seccion') === seccionId) {
       enlace.classList.add('active');
@@ -36,13 +134,43 @@ document.addEventListener('click', (e) => {
   }
 });
 
+/* ========================================================================== 
+   2. CARGAR PRODUCTOS CON IMÁGENES REALES
+   ========================================================================== */
+function renderizarProductos(lista = productos) {
+  const contenedor = document.getElementById('listaProductos');
+  if (!contenedor) return;
 
-/* ==========================================================================
-   2. FILTROS DEL CATÁLOGO (HTML ESTÁTICO)
+  contenedor.innerHTML = '';
+
+  lista.forEach(producto => {
+    const tarjeta = `
+      <article class="col-md-4 col-lg-3 producto-item" data-categoria="${producto.categoria}">
+        <section class="card h-100 product-card">
+          <img src="${producto.img}" class="card-img-top" alt="${producto.nombre}">
+          <section class="card-body d-flex flex-column">
+            <span class="product-tag">${producto.categoria}</span>
+            <h5 class="card-title">${producto.nombre}</h5>
+            <p>${producto.descripcion}</p>
+            <p class="card-text fw-bold text-success mt-auto">$${producto.precio.toFixed(2)}</p>
+            <button class="btn btn-primary w-100 btn-agregar" data-id="${producto.id}">Agregar al carrito</button>
+          </section>
+        </section>
+      </article>
+    `;
+
+    contenedor.insertAdjacentHTML('beforeend', tarjeta);
+  });
+}
+
+renderizarProductos();
+
+/* ========================================================================== 
+   3. FILTROS DEL CATÁLOGO
    ========================================================================== */
 function filtrarProductos(categoriaFiltro) {
   const tarjetas = document.querySelectorAll('.producto-item');
-  
+
   tarjetas.forEach(tarjeta => {
     const categoriaTarjeta = tarjeta.getAttribute('data-categoria');
     if (categoriaFiltro === 'todos' || categoriaTarjeta === categoriaFiltro) {
@@ -53,36 +181,29 @@ function filtrarProductos(categoriaFiltro) {
   });
 }
 
-// Botones de filtro principales en la sección de Productos
-document.querySelectorAll('.filter-tabs button').forEach(boton => {
+// Botones de filtro principales y tarjetas rápidas
+document.querySelectorAll('[data-filtro]').forEach(boton => {
   boton.addEventListener('click', (e) => {
-    document.querySelectorAll('.filter-tabs button').forEach(b => b.classList.remove('active'));
-    e.target.classList.add('active');
+    const filtro = e.currentTarget.getAttribute('data-filtro');
 
-    const filtro = e.target.getAttribute('data-filtro');
+    if (e.currentTarget.closest('.filter-tabs')) {
+      document.querySelectorAll('.filter-tabs button').forEach(b => b.classList.remove('active'));
+      e.currentTarget.classList.add('active');
+    } else {
+      irASeccion('productos');
+      const tabCorrespondiente = document.querySelector(`.filter-tabs button[data-filtro="${filtro}"]`);
+      if (tabCorrespondiente) {
+        document.querySelectorAll('.filter-tabs button').forEach(b => b.classList.remove('active'));
+        tabCorrespondiente.classList.add('active');
+      }
+    }
+
     filtrarProductos(filtro);
   });
 });
 
-// Botones de Categorías Rápidas en la pantalla de Inicio
-document.querySelectorAll('[data-filtro-rapido]').forEach(boton => {
-  boton.addEventListener('click', (e) => {
-    const filtro = e.currentTarget.getAttribute('data-filtro-rapido');
-    
-    // Ir a tienda
-    irASeccion('productos');
-    
-    // Activar el botón correcto en los tabs de la tienda
-    const tabCorrespondiente = document.querySelector(`.filter-tabs button[data-filtro="${filtro}"]`);
-    if (tabCorrespondiente) {
-      tabCorrespondiente.click();
-    }
-  });
-});
-
-
-/* ==========================================================================
-   3. BUSCADOR EN TIEMPO REAL
+/* ========================================================================== 
+   4. BUSCADOR EN TIEMPO REAL
    ========================================================================== */
 const buscador = document.getElementById('buscador');
 if (buscador) {
@@ -92,9 +213,9 @@ if (buscador) {
 
     if (query !== "") {
       irASeccion('productos');
-      // Limpiar los tabs activos al buscar de forma general
       document.querySelectorAll('.filter-tabs button').forEach(b => b.classList.remove('active'));
-      document.querySelector('.filter-tabs button[data-filtro="todos"]').classList.add('active');
+      const botonTodos = document.querySelector('.filter-tabs button[data-filtro="todos"]');
+      if (botonTodos) botonTodos.classList.add('active');
     }
 
     tarjetas.forEach(tarjeta => {
@@ -108,16 +229,14 @@ if (buscador) {
   });
 }
 
-
-/* ==========================================================================
-   4. LÓGICA COMPLETA DEL CARRITO DE COMPRAS
+/* ========================================================================== 
+   5. LÓGICA COMPLETA DEL CARRITO DE COMPRAS
    ========================================================================== */
 function actualizarInterfazCarrito() {
   const contador = document.getElementById('contadorCarrito');
   const listaHtml = document.getElementById('listaCarrito');
   const totalHtml = document.getElementById('totalCarrito');
 
-  // Actualizar burbuja del header
   const totalItems = carrito.reduce((acc, item) => acc + item.cantidad, 0);
   if (contador) contador.textContent = totalItems;
 
@@ -163,20 +282,19 @@ document.addEventListener('click', (e) => {
   if (e.target.classList.contains('btn-agregar')) {
     const boton = e.target;
     const id = boton.getAttribute('data-id');
-    const tarjeta = boton.closest('.card');
-    
-    const nombre = tarjeta.querySelector('.card-title').textContent;
-    const precioTexto = tarjeta.querySelector('.card-text').textContent;
-    const precio = parseFloat(precioTexto.replace('$', ''));
-    const img = tarjeta.querySelector('img').getAttribute('src');
+    const producto = productos.find(item => item.id === id);
+    if (!producto) return;
 
     const existe = carrito.find(item => item.id === id);
     if (existe) {
       existe.cantidad++;
     } else {
-      carrito.push({ id, nombre, precio, img, cantidad: 1 });
+      carrito.push({ ...producto, cantidad: 1 });
     }
+
     actualizarInterfazCarrito();
+    boton.textContent = "Agregado";
+    setTimeout(() => boton.textContent = "Agregar al carrito", 1000);
   }
 
   if (e.target.classList.contains('btn-eliminar')) {
@@ -186,9 +304,10 @@ document.addEventListener('click', (e) => {
   }
 });
 
+actualizarInterfazCarrito();
 
-/* ==========================================================================
-   5. FORMULARIO DE CONTACTO
+/* ========================================================================== 
+   6. FORMULARIO DE CONTACTO
    ========================================================================== */
 const formContacto = document.getElementById('formContacto');
 if (formContacto) {
