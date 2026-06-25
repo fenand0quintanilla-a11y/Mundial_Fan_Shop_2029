@@ -4,12 +4,17 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
+}
 
+html,
+body{
+    max-width:100%;
+    overflow-x:hidden;
 }
 
 body{
-    font-family:Segoe UI,Tahoma,Geneva,Verdana,sans-serif;
-    background:#d0eef3;
+    font-family:Segoe UI,Tahoma,GeneVA,Verdana,sans-serif;
+    background:#f4f6fb;
     color:#333;
 }
 
@@ -23,6 +28,11 @@ body{
 
 a{
     text-decoration:none;
+}
+
+img{
+    max-width:100%;
+    display:block;
 }
 
 /* BARRA SUPERIOR */
@@ -41,14 +51,26 @@ a{
     color:rgb(247, 236, 236);
 }
 
+.brand-logo{
+    width:48px;
+    height:48px;
+    max-width:48px;
+    max-height:48px;
+    object-fit:contain;
+    border-radius:10px;
+    flex-shrink:0;
+}
+
 .search-box{
     width:350px;
+    max-width:100%;
 }
 
 .quick-actions{
     display:flex;
     gap:15px;
     align-items:center;
+    flex-wrap:wrap;
 }
 
 .cart-button{
@@ -91,8 +113,12 @@ a{
 
 .hero-img{
     width:100%;
-    max-width:450px;
+    max-width:520px;
+    max-height:420px;
+    object-fit:contain;
     border-radius:20px;
+    margin:0 auto;
+    background:white;
 }
 
 .eyebrow{
@@ -147,7 +173,6 @@ a{
 
 /* NOSOTROS */
 
-
 .info-card{
     background:rgb(255, 255, 255);
     padding:30px;
@@ -163,7 +188,7 @@ a{
 }
 
 .info-card h3{
-    color:#dbdee2;
+    color:#0d6efd;
     margin-bottom:15px;
 }
 
@@ -210,13 +235,27 @@ a{
 }
 
 .product-card img{
+    width:100%;
     height:220px;
-    object-fit:cover;
+    object-fit:contain;
+    background:#ffffff;
+    padding:10px;
 }
 
 .product-card h5{
     color:#0d6efd;
     font-weight:700;
+}
+
+.product-tag{
+    display:inline-block;
+    background:#e9ecef;
+    color:#0d6efd;
+    padding:4px 10px;
+    border-radius:20px;
+    font-size:.75rem;
+    font-weight:700;
+    margin-bottom:8px;
 }
 
 /* PROMOCIONES */
@@ -244,6 +283,9 @@ a{
 
 .promo-image{
     width:100%;
+    max-height:430px;
+    object-fit:contain;
+    background:white;
     border-radius:20px;
 }
 
@@ -258,9 +300,11 @@ a{
 .gallery-grid img{
     width:100%;
     height:250px;
-    object-fit:cover;
+    object-fit:contain;
+    background:white;
     border-radius:20px;
     transition:.4s;
+    padding:10px;
 }
 
 .gallery-grid img:hover{
@@ -356,6 +400,7 @@ a{
 
     .hero{
         text-align:center;
+        padding:50px 0;
     }
 
     .hero h1{
@@ -364,6 +409,10 @@ a{
 
     .search-box{
         width:100%;
+    }
+
+    .quick-actions{
+        justify-content:center;
     }
 
     .location-card{
